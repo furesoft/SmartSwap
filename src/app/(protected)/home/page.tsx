@@ -2,13 +2,12 @@ import { auth } from '@/auth';
 import { Page } from '@/components/PageLayout';
 import { Pay } from '@/components/Pay';
 import { Verify } from '@/components/Verify';
-import { ViewPermissions } from '@/components/ViewPermissions';
 import { Marble, TopBar } from '@worldcoin/mini-apps-ui-kit-react';
 import {UserInfo} from "@/components/UserInfo";
 
 export default async function Home() {
   const session = await auth();
-
+ console.log(session);
   return (
     <>
       <Page.Header className="p-0">
@@ -28,7 +27,6 @@ export default async function Home() {
         <UserInfo />
         <Verify />
         <Pay />
-        <ViewPermissions />
       </Page.Main>
     </>
   );
