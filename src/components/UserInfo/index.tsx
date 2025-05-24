@@ -19,6 +19,8 @@ export const UserInfo = () => {
   const [tokens, setTokens] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  console.log(session);
+
   useEffect(() => {
     const fetchTokens = async () => {
       if (!walletAddress) return;
