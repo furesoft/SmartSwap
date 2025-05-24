@@ -3,6 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import { worldchain } from 'viem/chains';
+import KNOWN_TOKENS from '../../tokens.json';
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -11,26 +12,6 @@ const ERC20_ABI = [
   "function name() view returns (string)",
 ];
 
-const KNOWN_TOKENS = [
-  {
-    address: "0x2cFc85d8E48F8EAB294be644d9E25C3030863003",
-    symbol: "WLD",
-    name: "Worldcoin",
-    decimals: 18,
-  },
-  {
-    address: "0x4200000000000000000000000000000000000006",
-    symbol: "WETH",
-    name: "Wrapped Ether",
-    decimals: 18,
-  },
-  {
-    address: "0xB9763b34FF32CDb80dA94ae93941b00990237337",
-    symbol: "ADRS",
-    name: "Anders",
-    decimals: 18,
-  },
-];
 
 export const UserInfo = () => {
   const session = useSession();
@@ -64,7 +45,7 @@ export const UserInfo = () => {
       }
       setLoading(false);
     };
-    fetchTokens();
+    fetchTokens().then(r => console.log());
   }, [walletAddress]);
 
   return (
@@ -76,8 +57,8 @@ export const UserInfo = () => {
       </div>
       <div>
         <h3 className="font-bold mb-2">ERC20 Token:</h3>
-        {loading && <span>Lade Token...</span>}
-        {!loading && tokens.length === 0 && <span>Keine Token gefunden.</span>}
+        {loading && <span>Loading Tokens ...</span>}
+        {!loading && tokens.length === 0 && <span>No Tokens found</span>}
         <ul>
           {tokens.map((token) => (
             <li
