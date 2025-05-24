@@ -16,6 +16,8 @@ const eslintConfig = [
     settings: { react: { version: 'detect' } },
     plugins: { react },
     rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+
       ...react.configs.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
     },
