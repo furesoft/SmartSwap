@@ -61,6 +61,7 @@ export const UserInfo = () => {
       <div>
         <h3 className="font-bold mb-2">ERC20 Token:</h3>
         {loading && <span>Loading Tokens ...</span>}
+          <p>Tokens: {tokens.length}</p>
         {!loading && tokens.length === 0 && <span>No Tokens found</span>}
         <ul>
           {tokens.map((token) => (
