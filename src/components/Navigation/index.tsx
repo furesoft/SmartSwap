@@ -17,7 +17,6 @@ export const Navigation = () => {
   return (
     <Tabs value={value} onValueChange={setValue}>
       <TabItem value="home" icon={<Home />} label="Home" />
-      {/* // TODO: These currently don't link anywhere */}
       <TabItem value="wallet" icon={<Bank />} label="Wallet" />
       <TabItem value="profile" icon={<User />} label="Profile" />
     </Tabs>

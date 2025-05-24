@@ -1,9 +1,10 @@
 'use client';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { BigNumberish, ethers } from "ethers";
 import { worldchain } from 'viem/chains';
 import KNOWN_TOKENS from '../../tokens.json';
+import {Token} from "@/models/Token";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -14,38 +15,40 @@ const ERC20_ABI = [
 
 export const UserInfo = () => {
   const session = useSession();
-  const walletAddress = session?.data?.user?.walletAddress;
-  const [tokens, setTokens] = useState<any[]>([]);
+  const walletAddress = session?.data?.user?.id;
+  const [tokens, setTokens] = useState<Token[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-      console.log(session);
-
     const fetchTokens = async () => {
       if (!walletAddress) return;
       setLoading(true);
       try {
-          console.log(session);
-          console.log(worldchain.rpcUrls.default.http[0]);
         const provider = new ethers.JsonRpcProvider(worldchain.rpcUrls.default.http[0]);
         const balances = await Promise.all(
           KNOWN_TOKENS.map(async (token) => {
             const contract = new ethers.Contract(
-              token.address,
+              token,
               ERC20_ABI,
               provider
             );
-            const balance = await contract.balanceOf(walletAddress);
-            console.log(token.name + " balance: " + balance.toString());
+            const balance: BigNumberish = await contract.balanceOf(walletAddress);
+            const name = await contract.name();
+            const symbol = await contract.symbol();
+            const decimals = await contract.decimals();
+
             return {
-              ...token,
-              balance: ethers.formatUnits(balance, token.decimals),
+              balance: parseFloat(balance.toString()),
+              name: name.toString(),
+              symbol: symbol.toString(),
+              decimals: Number(decimals),
             };
           })
         );
-        setTokens(balances.filter((t) => Number(t.balance) > 0));
-      } catch (e) {
-          console.log(e);
+        setTokens(balances);
+      }
+      catch (e) {
+        console.log(e);
         setTokens([]);
       }
       setLoading(false);
@@ -55,11 +58,6 @@ export const UserInfo = () => {
 
   return (
     <div className="flex flex-col gap-4 rounded-xl w-full border-2 border-gray-200 p-4">
-      <div className="flex flex-row items-center justify-center">
-        <span className="text-lg font-semibold capitalize">
-          {walletAddress}
-        </span>
-      </div>
       <div>
         <h3 className="font-bold mb-2">ERC20 Token:</h3>
         {loading && <span>Loading Tokens ...</span>}
@@ -68,20 +66,12 @@ export const UserInfo = () => {
         <ul>
           {tokens.map((token) => (
             <li
-              key={token.contract_address}
+              key={token.name}
               className="flex items-center gap-2 mb-1"
             >
-              {token.logo_url && (
-                <img
-                  src={token.logo_url}
-                  alt={token.contract_ticker_symbol}
-                  width={24}
-                  height={24}
-                />
-              )}
               <span>
-                {token.contract_ticker_symbol}:{" "}
-                {Number(token.balance) / 10 ** token.contract_decimals}
+                {token.symbol}:{" "}
+                {Number(token.balance) / 10 ** token.decimals}
               </span>
             </li>
           ))}
