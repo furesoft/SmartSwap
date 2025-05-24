@@ -1,19 +1,12 @@
 ﻿const UNO_APP_ID = 'app_a4f7f3e62c1de0b9490a5260cb390b56'
 
 
-export function getUnoDeeplinkUrl({
-                               fromToken,
-                               toToken,
-                               amount,
-                               referrerAppId,
-                               referrerDeeplinkPath,
-                           }: {
-    fromToken?: string
-    toToken?: string
-    amount?: string
-    referrerAppId?: string
-    referrerDeeplinkPath?: string
-}) {
+export function getUnoDeeplinkUrl(
+    fromToken?: string,
+    toToken?: string,
+    amount?: string,
+    referrerAppId?: string,
+    referrerDeeplinkPath?: string) {
     let path = `?tab=swap`
     if (fromToken) {
         path += `&fromToken=${fromToken}`
@@ -35,11 +28,12 @@ export function getUnoDeeplinkUrl({
 }
 
 export function openUno(fromToken?: string, toToken?: string, amount?: string) {
-    const url = getUnoDeeplinkUrl({
+    let id = process.env.NEXT_PUBLIC_APP_ID;
+    const url = getUnoDeeplinkUrl(
         fromToken,
         toToken,
         amount,
-        process.env.NEXT_PUBLIC_APP_ID
-    })
+        id
+    );
     window.open(url)
 }

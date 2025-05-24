@@ -5,6 +5,8 @@ import { BigNumberish, ethers } from "ethers";
 import { worldchain } from 'viem/chains';
 import KNOWN_TOKENS from '../../tokens.json';
 import {Token} from "@/models/Token";
+import {openUno} from "@/Uno";
+import {Button} from "@worldcoin/mini-apps-ui-kit-react";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -71,12 +73,23 @@ export const UserInfo = () => {
             >
               <span>
                 {token.symbol}:{" "}
-                {Number(token.balance) / 10 ** token.decimals}
+                {token.balance / 10 ** token.decimals}
               </span>
             </li>
           ))}
         </ul>
       </div>
+      <Button onClick={swap()}>swap</Button>
     </div>
   );
+
+  function swap() {
+    const fromToken = tokens[0]?.symbol;
+    const toToken = tokens[1]?.symbol;
+    const amount = (tokens[0]?.balance / 10 ** tokens[0]?.decimals).toString();
+
+    openUno(fromToken, toToken, amount);
+
+    return undefined;
+  }
 };
