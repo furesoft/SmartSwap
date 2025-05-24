@@ -36,6 +36,7 @@ export const UserInfo = () => {
               provider
             );
             const balance = await contract.balanceOf(walletAddress);
+            console.log(token.name + " balance: " + balance.toString());
             return {
               ...token,
               balance: ethers.formatUnits(balance, token.decimals),
