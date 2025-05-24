@@ -28,7 +28,7 @@ export function getUnoDeeplinkUrl(
 }
 
 export function openUno(fromToken?: string, toToken?: string, amount?: string) {
-    let id = process.env.NEXT_PUBLIC_APP_ID;
+    const id = process.env.NEXT_PUBLIC_APP_ID;
     const url = getUnoDeeplinkUrl(
         fromToken,
         toToken,

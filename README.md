@@ -9,7 +9,7 @@ This template is a way for you to quickly get started with authentication and ex
 1. cp .env.example .env.local
 2. Follow the instructions in the .env.local file
 3. Run `npm run dev`
-4. Run `ngrok http 3000`
+4. Run `ngrok http --url=jaybird-crisp-clam.ngrok-free.app 3000`
 5. Run `npx auth secret` to update the `AUTH_SECRET` in the .env.local file
 6. Add your domain to the `allowedDevOrigins` in the next.config.ts file.
 7. [For Testing] If you're using a proxy like ngrok, you need to update the `AUTH_URL` in the .env.local file to your ngrok url.
