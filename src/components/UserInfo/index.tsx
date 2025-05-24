@@ -12,7 +12,6 @@ const ERC20_ABI = [
   "function name() view returns (string)",
 ];
 
-
 export const UserInfo = () => {
   const session = useSession();
   const walletAddress = session?.data?.user?.walletAddress;
@@ -27,6 +26,7 @@ export const UserInfo = () => {
       setLoading(true);
       try {
           console.log(session);
+          console.log(worldchain.rpcUrls.default.http[0]);
         const provider = new ethers.JsonRpcProvider(worldchain.rpcUrls.default.http[0]);
         const balances = await Promise.all(
           KNOWN_TOKENS.map(async (token) => {
@@ -44,6 +44,7 @@ export const UserInfo = () => {
         );
         setTokens(balances.filter((t) => Number(t.balance) > 0));
       } catch (e) {
+          console.log(e);
         setTokens([]);
       }
       setLoading(false);
