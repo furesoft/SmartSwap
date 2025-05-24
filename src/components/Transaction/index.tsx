@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { createPublicClient, http } from 'viem';
 import { worldchain } from 'viem/chains';
 
-// @ts-ignore
 /**
  * This component is used to get a token from a contract
  * For this to work you need to add the contract address to both contract entrypoints and permit2 tokens
