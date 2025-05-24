@@ -36,7 +36,7 @@ export const Transaction = () => {
     transport: http('https://worldchain-mainnet.g.alchemy.com/public'),
   });
 
-  // @ts-ignore
+  // @ts-expect-error
   const {
     isLoading: isConfirming,
     isSuccess: isConfirmed,
