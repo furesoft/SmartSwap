@@ -19,13 +19,14 @@ export const UserInfo = () => {
   const [tokens, setTokens] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
-  console.log(session);
-
   useEffect(() => {
+      console.log(session);
+
     const fetchTokens = async () => {
       if (!walletAddress) return;
       setLoading(true);
       try {
+          console.log(session);
         const provider = new ethers.JsonRpcProvider(worldchain.rpcUrls.default.http[0]);
         const balances = await Promise.all(
           KNOWN_TOKENS.map(async (token) => {
