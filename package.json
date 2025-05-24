@@ -1,10 +1,10 @@
 {
-  "name": "@worldcoin/next-15-template",
+  "name": "SmartSwap",
   "version": "0.1.0",
   "homepage": "https://docs.worldcoin.org/mini-apps",
   "description": "Create a Mini App",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "type": "module",
   "scripts": {
     "dev": "next dev",
@@ -18,6 +18,7 @@
     "@worldcoin/minikit-react": "latest",
     "@worldcoin/next-15-template": "file:",
     "clsx": "^2.1.1",
+    "ethers": "^6.14.1",
     "iconoir-react": "^7.11.0",
     "next": "15.2.3",
     "next-auth": "^5.0.0-beta.25",
