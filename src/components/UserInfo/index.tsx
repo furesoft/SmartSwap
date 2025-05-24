@@ -2,8 +2,7 @@
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-
-const WORLDCHAIN_RPC = "https://worldchain-mainnet.g.alchemy.com/public";
+import { worldchain } from 'viem/chains';
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -44,7 +43,7 @@ export const UserInfo = () => {
       if (!walletAddress) return;
       setLoading(true);
       try {
-        const provider = new ethers.JsonRpcProvider(WORLDCHAIN_RPC);
+        const provider = new ethers.JsonRpcProvider(worldchain.rpcUrls.default.http[0]);
         const balances = await Promise.all(
           KNOWN_TOKENS.map(async (token) => {
             const contract = new ethers.Contract(
