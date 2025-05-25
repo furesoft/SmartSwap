@@ -18,6 +18,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: 'SmartSwap',
   description: '',
+  icons: [
+    { rel: 'icon', url: '/logo.png', type: 'image/png' },
+    { rel: 'shortcut icon', url: '/logo.png', type: 'image/png' },
+    { rel: 'apple-touch-icon', url: '/logo.png', type: 'image/png' }
+  ]
 };
 
 export default async function RootLayout({
