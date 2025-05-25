@@ -1,6 +1,9 @@
 import { auth } from '@/auth';
 import { Navigation } from '@/components/Navigation';
 import { Page } from '@/components/PageLayout';
+import { Marble, TopBar } from "@worldcoin/mini-apps-ui-kit-react";
+import { redirect } from "next/navigation";
+import ProfileButton from '@/components/ProfileButton';
 
 export default async function TabsLayout({
   children,
@@ -15,8 +18,21 @@ export default async function TabsLayout({
     // redirect('/');
   }
 
+  function openProfile() {
+    redirect("/profile")
+    return undefined;
+  }
+
   return (
     <Page>
+        <Page.Header className="p-0">
+            <TopBar
+                title="Home"
+                endAdornment={
+                    <ProfileButton username={session?.user.username} profilePictureUrl={session?.user.profilePictureUrl} />
+                }
+            />
+        </Page.Header>
       {children}
       <Page.Footer className="px-0 fixed bottom-0 w-full bg-white">
         <Navigation />
