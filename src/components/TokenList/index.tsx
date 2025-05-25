@@ -8,7 +8,7 @@ import KNOWN_TOKENS from '../../tokens.json';
 import {Token} from "@/models/Token";
 import {useRouter} from "next/navigation";
 import {useToken} from "@/components/TokenContext";
-import {SkeletonTypography} from "@worldcoin/mini-apps-ui-kit-react";
+import {Skeleton} from "@worldcoin/mini-apps-ui-kit-react";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -17,7 +17,7 @@ const ERC20_ABI = [
   "function name() view returns (string)",
 ];
 
-export const UserInfo = () => {
+export const TokenList = () => {
   const session = useSession();
   const walletAddress = session?.data?.user?.id;
   const [tokens, setTokens] = useState<Token[]>([]);
@@ -79,28 +79,17 @@ export const UserInfo = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 rounded-xl w-full border-2 border-gray-200 p-4">
+    <div className="flex flex-col gap-4 rounded-xl w-full p-4">
       <div>
         {loading &&
-        <div>
-          <div className="flex items-center justify-between">
-            <SkeletonTypography variant="heading" className="font-semibold text-lg" />
-            <SkeletonTypography variant="label" className="text-xs text-gray-500"/>
-          </div>
-          <div className="flex items-center justify-between mt-1">
-            <span className="text-gray-700">Balance:</span>
-            <SkeletonTypography variant="label" className="font-mono" />
-          </div>
-          <div className="flex items-center justify-between mt-1">
-            <span className="text-gray-500 text-xs">Decimals:</span>
-            <SkeletonTypography variant="label" className="text-gray-400 text-xs" />
-          </div>
+        <div className="cursor-pointer border rounded-lg p-3 shadow-sm hover:bg-gray-50 transition flex flex-col gap-1">
+          <Skeleton />
         </div>
         }
 
         {!loading && tokens.length === 0 && <span>No Tokens found</span>}
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-          {tokens.map((token) => (
+          {tokens.filter(t => t.balance > 0).map((token) => (
             <li
               key={token.name}
               onClick={() => openToken(token)}
