@@ -1,8 +1,16 @@
+"use client";
+
 import { auth } from '@/auth';
 import { Page } from '@/components/PageLayout';
+import { useEffect } from 'react';
+import {usePageTitle} from "@/components/PageTitleContext";
 
-export default async function Home() {
-  const session = await auth();
+export default function Home() {
+  const { setTitle } = usePageTitle();
+
+  useEffect(() => {
+    setTitle("Home");
+  }, [setTitle]);
 
     return (
     <>

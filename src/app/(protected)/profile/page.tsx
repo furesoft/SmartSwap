@@ -1,8 +1,17 @@
-﻿import { auth } from '@/auth';
+﻿'use client';
 import { Page } from '@/components/PageLayout';
+import {usePageTitle} from "@/components/PageTitleContext";
+import {useEffect} from "react";
+import {useSession} from "next-auth/react";
 
-export default async function Profile() {
-    const session = await auth();
+export default function Profile() {
+    const session = useSession().data;
+
+    const { setTitle } = usePageTitle();
+
+    useEffect(() => {
+        setTitle("Profile");
+    }, [setTitle]);
 
     return (
         <>

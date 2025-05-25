@@ -1,9 +1,16 @@
-import { auth } from '@/auth';
+"use client";
+
 import { Page } from '@/components/PageLayout';
 import {UserInfo} from "@/components/UserInfo";
+import {usePageTitle} from "@/components/PageTitleContext";
+import {useEffect} from "react";
 
-export default async function Wallet() {
-  const session = await auth();
+export default function Wallet() {
+    const { setTitle } = usePageTitle();
+
+    useEffect(() => {
+        setTitle("Wallet");
+    }, [setTitle]);
 
     return (
     <>

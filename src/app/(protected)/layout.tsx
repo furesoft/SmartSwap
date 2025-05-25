@@ -1,39 +1,40 @@
-import { auth } from '@/auth';
+'use client';
 import { Navigation } from '@/components/Navigation';
 import { Page } from '@/components/PageLayout';
-import { Marble, TopBar } from "@worldcoin/mini-apps-ui-kit-react";
-import { redirect } from "next/navigation";
+import { TopBar } from "@worldcoin/mini-apps-ui-kit-react";
 import ProfileButton from '@/components/ProfileButton';
+import { PageTitleProvider, usePageTitle } from '@/components/PageTitleContext';
+import {useSession} from "next-auth/react";
 
-export default async function TabsLayout({
+export default function TabsLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
+  return (
+    <PageTitleProvider>
+      <InnerTabsLayout>{children}</InnerTabsLayout>
+    </PageTitleProvider>
+  );
+}
 
-  // If the user is not authenticated, redirect to the login page
-  if (!session) {
-    console.log('Not authenticated');
-    // redirect('/');
-  }
-
-  function openProfile() {
-    redirect("/profile")
-    return undefined;
-  }
+function InnerTabsLayout({ children }: { children: React.ReactNode }) {
+  const { title } = usePageTitle();
+  const { data } = useSession();
 
   return (
     <Page>
-        <Page.Header className="p-0">
-            <TopBar
-                title="Home"
-                endAdornment={
-                    <ProfileButton username={session?.user.username} profilePictureUrl={session?.user.profilePictureUrl} />
-                }
-            />
-        </Page.Header>
+      <Page.Header className="p-0">
+        <TopBar
+          title={title}
+          endAdornment={
+            <ProfileButton username={data?.user?.username} profilePictureUrl={data?.user?.profilePictureUrl} />
+          }
+        />
+      </Page.Header>
+
       {children}
+
       <Page.Footer className="px-0 fixed bottom-0 w-full bg-white">
         <Navigation />
       </Page.Footer>

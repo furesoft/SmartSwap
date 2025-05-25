@@ -1,10 +1,12 @@
 'use client';
+
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { BigNumberish, ethers } from "ethers";
 import { worldchain } from 'viem/chains';
 import KNOWN_TOKENS from '../../tokens.json';
 import {Token} from "@/models/Token";
+import {useRouter} from "next/navigation";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -56,7 +58,13 @@ export const UserInfo = () => {
     fetchTokens().then(r => console.log());
   }, [walletAddress]);
 
-  return (
+    const router = useRouter();
+    function openToken(token: Token) {
+        router.push(`/wallet/token?token=${token.name}`);
+        return undefined;
+    }
+
+    return (
     <div className="flex flex-col gap-4 rounded-xl w-full border-2 border-gray-200 p-4">
       <div>
         <h3 className="font-bold mb-2">ERC20 Token:</h3>
@@ -66,7 +74,7 @@ export const UserInfo = () => {
         <ul>
           {tokens.map((token) => (
             <li
-              key={token.name}
+              key={token.name} onClick={()=>openToken(token)}
               className="flex items-center gap-2 mb-1"
             >
               <span>
