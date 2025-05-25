@@ -1,26 +1,29 @@
 ﻿"use client"
 
 import { useSearchParams } from "next/navigation";
-import {usePageTitle} from "@/components/PageTitleContext";
-import {useEffect} from "react";
+import { usePageTitle } from "@/components/PageTitleContext";
+import { useEffect } from "react";
+import { useToken } from '@/components/TokenContext';
 
 export default function TokenPage() {
-    const searchParams = useSearchParams();
-    const token = searchParams.get("token");
-
+    const { token } = useToken();
     const { setTitle } = usePageTitle();
 
     useEffect(() => {
-        setTitle(token);
-    }, [setTitle]);
+        if (token) setTitle(token.symbol);
+    }, [setTitle, token]);
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-white">
             <h1 className="text-2xl font-bold mb-4">Token Info</h1>
             {token ? (
-                <p>Token Parameter: <span className="font-mono">{token}</span></p>
+                <>
+                  <p>Symbol: <span className="font-mono">{token.symbol}</span></p>
+                  <p>Name: <span className="font-mono">{token.name}</span></p>
+                  <p>Dezimalstellen: <span className="font-mono">{token.decimals}</span></p>
+                </>
             ) : (
-                <p>Kein Token-Parameter übergeben.</p>
+                <p>Kein Token-Objekt übergeben.</p>
             )}
         </div>
     );

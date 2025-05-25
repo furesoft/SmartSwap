@@ -7,6 +7,7 @@ import { worldchain } from 'viem/chains';
 import KNOWN_TOKENS from '../../tokens.json';
 import {Token} from "@/models/Token";
 import {useRouter} from "next/navigation";
+import {useToken} from "@/components/TokenContext";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -20,6 +21,7 @@ export const UserInfo = () => {
   const walletAddress = session?.data?.user?.id;
   const [tokens, setTokens] = useState<Token[]>([]);
   const [loading, setLoading] = useState(false);
+  const { setToken } = useToken();
 
   useEffect(() => {
     const fetchTokens = async () => {
@@ -60,8 +62,10 @@ export const UserInfo = () => {
 
     const router = useRouter();
     function openToken(token: Token) {
-        router.push(`/wallet/token?token=${token.name}`);
-        return undefined;
+      setToken(token);
+      router.push(`/wallet/token`);
+
+      return undefined;
     }
 
     return (

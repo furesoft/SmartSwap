@@ -4,7 +4,9 @@ import { Page } from '@/components/PageLayout';
 import { TopBar } from "@worldcoin/mini-apps-ui-kit-react";
 import ProfileButton from '@/components/ProfileButton';
 import { PageTitleProvider, usePageTitle } from '@/components/PageTitleContext';
-import {useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
+import { TokenProvider } from '@/components/TokenContext';
 
 export default function TabsLayout({
   children,
@@ -12,21 +14,31 @@ export default function TabsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <PageTitleProvider>
-      <InnerTabsLayout>{children}</InnerTabsLayout>
-    </PageTitleProvider>
+    <TokenProvider>
+      <PageTitleProvider>
+        <InnerTabsLayout>{children}</InnerTabsLayout>
+      </PageTitleProvider>
+    </TokenProvider>
   );
 }
 
 function InnerTabsLayout({ children }: { children: React.ReactNode }) {
-  const { title } = usePageTitle();
+  const { title, showBackButton } = usePageTitle();
   const { data } = useSession();
+  const router = useRouter();
 
   return (
     <Page>
       <Page.Header className="p-0">
         <TopBar
           title={title}
+          startAdornment={
+            showBackButton ? (
+              <button onClick={() => router.back()} style={{ marginRight: 8 }}>
+                ←
+              </button>
+            ) : null
+          }
           endAdornment={
             <ProfileButton username={data?.user?.username} profilePictureUrl={data?.user?.profilePictureUrl} />
           }
