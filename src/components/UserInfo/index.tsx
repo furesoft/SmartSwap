@@ -22,10 +22,18 @@ export const UserInfo = () => {
   const [tokens, setTokens] = useState<Token[]>([]);
   const [loading, setLoading] = useState(false);
   const { setToken } = useToken();
+  const router = useRouter();
 
   useEffect(() => {
+    if (!walletAddress) return;
+    const sessionKey = `tokens_${walletAddress}`;
+    const cached = sessionStorage.getItem(sessionKey);
+    if (cached) {
+      setTokens(JSON.parse(cached));
+      return;
+    }
+
     const fetchTokens = async () => {
-      if (!walletAddress) return;
       setLoading(true);
       try {
         const provider = new ethers.JsonRpcProvider(worldchain.rpcUrls.default.http[0]);
@@ -49,7 +57,9 @@ export const UserInfo = () => {
             };
           })
         );
-        setTokens(balances.filter(token => token.balance > 0).sort((a, b) => a.symbol.localeCompare(b.symbol)));
+        const filtered = balances.filter(token => token.balance > 0).sort((a, b) => a.symbol.localeCompare(b.symbol));
+        setTokens(filtered);
+        sessionStorage.setItem(sessionKey, JSON.stringify(filtered));
       }
       catch (e) {
         console.log(e);
@@ -57,23 +67,22 @@ export const UserInfo = () => {
       }
       setLoading(false);
     };
-    fetchTokens().then(r => console.log());
+    fetchTokens();
   }, [walletAddress]);
 
-    const router = useRouter();
-    function openToken(token: Token) {
-      setToken(token);
-      router.push(`/wallet/token`);
+  function openToken(token: Token) {
+    setToken(token);
+    router.push(`/wallet/token`);
 
-      return undefined;
-    }
+    return undefined;
+  }
 
-    return (
+  return (
     <div className="flex flex-col gap-4 rounded-xl w-full border-2 border-gray-200 p-4">
       <div>
         <h3 className="font-bold mb-2">ERC20 Token:</h3>
         {loading && <span>Loading Tokens ...</span>}
-          <p>Tokens: {tokens.length}</p>
+        <p>Tokens: {tokens.length}</p>
         {!loading && tokens.length === 0 && <span>No Tokens found</span>}
         <ul>
           {tokens.map((token) => (
