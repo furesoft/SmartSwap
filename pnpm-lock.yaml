@@ -19,7 +19,7 @@ importers:
         version: 1.9.5(@types/react@19.1.5)(react@19.1.0)(typescript@5.8.3)(viem@2.23.5(typescript@5.8.3))
       '@worldcoin/next-15-template':
         specifier: 'file:'
-        version: SmartSwap@file:(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(prop-types@15.8.1)(tailwindcss@4.1.7)(typescript@5.8.3)
+        version: SmartSwap@file:(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(tailwindcss@4.1.7)(typescript@5.8.3)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -41,15 +41,6 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
-      react-tradingview-embed:
-        specifier: ^3.0.6
-        version: 3.0.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      react-tradingview-widget:
-        specifier: ^1.3.2
-        version: 1.3.2(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      react-ts-tradingview-widgets:
-        specifier: ^1.2.8
-        version: 1.2.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwind-merge:
         specifier: ^3.2.0
         version: 3.3.0
@@ -2220,25 +2211,6 @@ packages:
       '@types/react':
         optional: true
 
-  react-tradingview-embed@3.0.6:
-    resolution: {integrity: sha512-1qClGqBHOi7mvRFvhBxXSoyoPrNR8aPi/yfF/mYt8EWStA8LoWBl9ufemCyG+mc61iPmNGjJla0XB00FPENaPg==}
-    peerDependencies:
-      react: '>= 16.8.0'
-      react-dom: '>= 16.8.0'
-
-  react-tradingview-widget@1.3.2:
-    resolution: {integrity: sha512-PQSf2G0zkw9AmE8BlzqNbkzv8GvmJssf+bklG9qal2xQOPVOJ8BHUa7PJuhPfINWvv+h4vKUsj2mdDu9iOOwew==}
-    peerDependencies:
-      prop-types: ^15.6.0
-      react: ^16.0.0
-      react-dom: ^16.0.0
-
-  react-ts-tradingview-widgets@1.2.8:
-    resolution: {integrity: sha512-ozJwn+0x+Kp2DcqoB9LTDWQHyv3JCdfShb8ooHo+ZB9xjKAXW0irD/gK1deWv4oaAnTxmzKLfmr1QNfAhv+MJw==}
-    peerDependencies:
-      react: ^17.0.2 || ^18.1.0 || ^19.0.0
-      react-dom: ^17.0.2 || ^18.1.0 || ^19.0.0
-
   react@19.1.0:
     resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
     engines: {node: '>=0.10.0'}
@@ -3634,7 +3606,7 @@ snapshots:
       - typescript
       - zod
 
-  SmartSwap@file:(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(prop-types@15.8.1)(tailwindcss@4.1.7)(typescript@5.8.3):
+  SmartSwap@file:(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(tailwindcss@4.1.7)(typescript@5.8.3):
     dependencies:
       '@worldcoin/mini-apps-ui-kit-react': 1.2.4(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.7)
       '@worldcoin/minikit-js': 1.9.4(@types/react@19.1.5)(react@19.1.0)(typescript@5.8.3)(viem@2.23.5(typescript@5.8.3))
@@ -3646,8 +3618,6 @@ snapshots:
       next-auth: 5.0.0-beta.28(next@15.2.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
-      react-tradingview-widget: 1.3.2(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
-      react-ts-tradingview-widgets: 1.2.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwind-merge: 3.3.0
       viem: 2.23.5(typescript@5.8.3)
     transitivePeerDependencies:
@@ -3663,7 +3633,6 @@ snapshots:
       - bufferutil
       - immer
       - nodemailer
-      - prop-types
       - sass
       - tailwindcss
       - typescript
@@ -4789,8 +4758,8 @@ snapshots:
   ox@0.6.7(typescript@5.8.3):
     dependencies:
       '@adraffy/ens-normalize': 1.11.0
-      '@noble/curves': 1.9.1
-      '@noble/hashes': 1.8.0
+      '@noble/curves': 1.8.1
+      '@noble/hashes': 1.7.1
       '@scure/bip32': 1.6.2
       '@scure/bip39': 1.5.4
       abitype: 1.0.8(typescript@5.8.3)
@@ -4893,22 +4862,6 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       '@types/react': 19.1.5
-
-  react-tradingview-embed@3.0.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-
-  react-tradingview-widget@1.3.2(prop-types@15.8.1)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      prop-types: 15.8.1
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
-
-  react-ts-tradingview-widgets@1.2.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-      react-dom: 19.1.0(react@19.1.0)
 
   react@19.1.0: {}
 
