@@ -8,6 +8,7 @@ import KNOWN_TOKENS from '../../tokens.json';
 import {Token} from "@/models/Token";
 import {useRouter} from "next/navigation";
 import {useToken} from "@/components/TokenContext";
+import {SkeletonTypography} from "@worldcoin/mini-apps-ui-kit-react";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -80,25 +81,47 @@ export const UserInfo = () => {
   return (
     <div className="flex flex-col gap-4 rounded-xl w-full border-2 border-gray-200 p-4">
       <div>
-        <h3 className="font-bold mb-2">ERC20 Token:</h3>
-        {loading && <span>Loading Tokens ...</span>}
-        <p>Tokens: {tokens.length}</p>
+        {loading &&
+        <div>
+          <div className="flex items-center justify-between">
+            <SkeletonTypography variant="heading" className="font-semibold text-lg" />
+            <SkeletonTypography variant="label" className="text-xs text-gray-500"/>
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <span className="text-gray-700">Balance:</span>
+            <SkeletonTypography variant="label" className="font-mono" />
+          </div>
+          <div className="flex items-center justify-between mt-1">
+            <span className="text-gray-500 text-xs">Decimals:</span>
+            <SkeletonTypography variant="label" className="text-gray-400 text-xs" />
+          </div>
+        </div>
+        }
+
         {!loading && tokens.length === 0 && <span>No Tokens found</span>}
-        <ul>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
           {tokens.map((token) => (
             <li
-              key={token.name} onClick={()=>openToken(token)}
-              className="flex items-center gap-2 mb-1"
+              key={token.name}
+              onClick={() => openToken(token)}
+              className="cursor-pointer border rounded-lg p-3 shadow-sm hover:bg-gray-50 transition flex flex-col gap-1"
             >
-              <span>
-                {token.symbol}:{" "}
-                {token.balance / 10 ** token.decimals}
-              </span>
+              <div className="flex items-center justify-between">
+                <span className="font-semibold text-lg">{token.symbol}</span>
+                <span className="text-xs text-gray-500">{token.name}</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-gray-700">Balance:</span>
+                <span className="font-mono">{(token.balance / 10 ** token.decimals).toLocaleString(undefined, { maximumFractionDigits: 6 })}</span>
+              </div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-gray-500 text-xs">Decimals:</span>
+                <span className="text-gray-400 text-xs">{token.decimals}</span>
+              </div>
             </li>
           ))}
         </ul>
       </div>
-
     </div>
   );
 };

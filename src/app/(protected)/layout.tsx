@@ -7,6 +7,7 @@ import { PageTitleProvider, usePageTitle } from '@/components/PageTitleContext';
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import { TokenProvider } from '@/components/TokenContext';
+import {ArrowLeft} from "iconoir-react";
 
 export default function TabsLayout({
   children,
@@ -23,7 +24,7 @@ export default function TabsLayout({
 }
 
 function InnerTabsLayout({ children }: { children: React.ReactNode }) {
-  const { title, showBackButton } = usePageTitle();
+  const { title, showBackButton, setShowBackButton } = usePageTitle();
   const { data } = useSession();
   const router = useRouter();
 
@@ -34,8 +35,13 @@ function InnerTabsLayout({ children }: { children: React.ReactNode }) {
           title={title}
           startAdornment={
             showBackButton ? (
-              <button onClick={() => router.back()} style={{ marginRight: 8 }}>
-                ←
+              <button
+                onClick={() => {
+                  setShowBackButton(false);
+                  router.back();
+                }}
+              >
+                <ArrowLeft />
               </button>
             ) : null
           }

@@ -1,16 +1,16 @@
 ﻿"use client"
 
-import { useSearchParams } from "next/navigation";
 import { usePageTitle } from "@/components/PageTitleContext";
 import { useEffect } from "react";
 import { useToken } from '@/components/TokenContext';
 
 export default function TokenPage() {
     const { token } = useToken();
-    const { setTitle } = usePageTitle();
+    const { setTitle, setShowBackButton } = usePageTitle();
 
     useEffect(() => {
         if (token) setTitle(token.symbol);
+        setShowBackButton(true);
     }, [setTitle, token]);
 
     return (
