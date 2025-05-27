@@ -55,6 +55,7 @@ export const TokenList = () => {
               name: name.toString(),
               symbol: symbol.toString(),
               decimals: Number(decimals),
+              claim: true
             };
           })
         );
