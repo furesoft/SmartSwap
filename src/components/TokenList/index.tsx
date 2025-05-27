@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from "react";
 import { BigNumberish, ethers } from "ethers";
 import { worldchain } from 'viem/chains';
-import KNOWN_TOKENS from '../../tokens.json';
+import {TOKENS} from '@/tokens';
 import {Token} from "@/models/Token";
 import {useRouter} from "next/navigation";
 import {useToken} from "@/components/TokenContext";
@@ -39,7 +39,7 @@ export const TokenList = () => {
       try {
         const provider = new ethers.JsonRpcProvider(worldchain.rpcUrls.default.http[0]);
         const balances = await Promise.all(
-          KNOWN_TOKENS.map(async (token) => {
+            TOKENS.map(async (token) => {
             const contract = new ethers.Contract(
               token,
               ERC20_ABI,
