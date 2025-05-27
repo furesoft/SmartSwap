@@ -96,16 +96,12 @@ export const TokenList = () => {
               className="cursor-pointer border rounded-lg p-3 shadow-sm hover:bg-gray-50 transition flex flex-col gap-1"
             >
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-lg">{token.symbol}</span>
-                <span className="text-xs text-gray-500">{token.name}</span>
+                <span className="font-semibold text-lg">{token.name}</span>
+                {token.claim ? <button>Claim</button>}
               </div>
               <div className="flex items-center justify-between mt-1">
                 <span className="text-gray-700">Balance:</span>
-                <span className="font-mono">{(token.balance / 10 ** token.decimals).toLocaleString(undefined, { maximumFractionDigits: 6 })}</span>
-              </div>
-              <div className="flex items-center justify-between mt-1">
-                <span className="text-gray-500 text-xs">Decimals:</span>
-                <span className="text-gray-400 text-xs">{token.decimals}</span>
+                <span className="font-mono">{(token.balance / 10 ** token.decimals).toLocaleString(undefined, { maximumFractionDigits: 6 })} {token.symbol}</span>
               </div>
             </li>
           ))}
