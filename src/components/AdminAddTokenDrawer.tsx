@@ -1,7 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle } from "@worldcoin/mini-apps-ui-kit-react";
-import { Button, Input } from "@worldcoin/mini-apps-ui-kit-react";
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  LiveFeedback
+} from "@worldcoin/mini-apps-ui-kit-react";
+import { Button, Input, Switch } from "@worldcoin/mini-apps-ui-kit-react";
 import { TokenStore } from "@/store/tokenStore";
 import {getTokenInfoForAddress} from "@/utils/tokenHelpers";
 
@@ -12,18 +19,38 @@ export default function AdminAddTokenDrawer({ onTokenAdded }: { onTokenAdded?: (
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [verified, setVerified] = useState(false);
+  const [feedbackState, setFeedbackState] = useState<'pending' | 'success' | 'failed' | undefined>();
+  const [loadFeedbackState, setLoadFeedbackState] = useState<'pending' | 'success' | 'failed' | undefined>();
+
+  const handleDrawerOpen = (open: boolean) => {
+    setOpen(open);
+    if (open) {
+      setAddress("");
+      setToken(null);
+      setError(null);
+      setSuccess(null);
+      setLoading(false);
+      setVerified(false);
+      setFeedbackState(undefined);
+      setLoadFeedbackState(undefined);
+    }
+  };
 
   const fetchTokenInfo = async () => {
     setError(null);
     setSuccess(null);
     setToken(null);
     setLoading(true);
-
+    setLoadFeedbackState('pending');
     try {
       const data = await getTokenInfoForAddress(address);
       setToken(data);
+      setVerified(false);
+      setLoadFeedbackState('success');
     } catch (e: any) {
       setError(e.message);
+      setLoadFeedbackState('failed');
     } finally {
       setLoading(false);
     }
@@ -33,26 +60,29 @@ export default function AdminAddTokenDrawer({ onTokenAdded }: { onTokenAdded?: (
     setError(null);
     setSuccess(null);
     setLoading(true);
+    setFeedbackState('pending');
     try {
       const store = new TokenStore();
-      await store.add(token);
+      await store.add({ ...token, verified });
       setSuccess("Token added successfully!");
+      setFeedbackState('success');
       if (onTokenAdded) onTokenAdded();
-      // Close the drawer after success
       setTimeout(() => {
         setOpen(false);
+        setFeedbackState(undefined);
       }, 500);
     } catch (e: any) {
       setError(e.message);
+      setFeedbackState('failed');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Drawer height="full" repositionInputs open={open} onOpenChange={setOpen}>
+    <Drawer height="full" repositionInputs open={open} onOpenChange={handleDrawerOpen}>
       <DrawerTrigger asChild>
-        <Button variant="secondary" size="sm" onClick={() => setOpen(true)}>
+        <Button variant="secondary" size="sm" onClick={() => handleDrawerOpen(true)}>
           Add token
         </Button>
       </DrawerTrigger>
@@ -62,20 +92,48 @@ export default function AdminAddTokenDrawer({ onTokenAdded }: { onTokenAdded?: (
             <DrawerTitle>Add token</DrawerTitle>
           </DrawerHeader>
           <div className="flex flex-col gap-4 pt-4">
-            <Input label="Token address" value={address} onChange={e => setAddress(e.target.value)} />
-            <Button onClick={fetchTokenInfo} disabled={!address || loading} variant="primary">
-              Load token info
-            </Button>
-            {loading && <div>Loading...</div>}
+            <Input label="Token address" value={address} onChange={e => {
+              setAddress(e.target.value);
+              setLoadFeedbackState(undefined);
+            }} />
+            <LiveFeedback
+              className="w-full"
+              label={{
+                failed: 'Failed',
+                pending: 'Pending',
+                success: 'Success'
+              }}
+              state={loadFeedbackState}
+            >
+              <Button onClick={fetchTokenInfo} disabled={!address || loading} variant="primary">
+                Load token info
+              </Button>
+            </LiveFeedback>
             {error && <div className="text-red-600 mb-2">{error}</div>}
             {token && (
               <div className="mb-4">
-                <div><b>Name:</b> {token.name}</div>
+                <div className="flex items-center justify-between">
+                  <div><b>Name:</b> {token.name}</div>
+                  <div className="flex items-center gap-2">
+                    <Switch checked={verified} onCheckedChange={setVerified} />
+                    <span>Verified</span>
+                  </div>
+                </div>
                 <div><b>Symbol:</b> {token.symbol}</div>
                 <div><b>Decimals:</b> {token.decimals}</div>
-                <Button onClick={addToken} className="mt-3">
-                  Add token
-                </Button>
+                <LiveFeedback
+                    className="w-full"
+                    label={{
+                      failed: 'Failed',
+                      pending: 'Pending',
+                      success: 'Success'
+                    }}
+                    state={feedbackState}
+                >
+                  <Button onClick={addToken} className="mt-3 w-full">
+                    Add token
+                  </Button>
+                </LiveFeedback>
               </div>
             )}
             {success && <div className="text-green-600">{error}</div>}
