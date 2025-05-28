@@ -6,4 +6,5 @@
     verified: boolean;
     claim: boolean;
     contract: string;
+    iconUrl: string;
 }

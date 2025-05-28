@@ -1,6 +1,8 @@
 import React from "react";
 import {Token} from "@/models/Token";
 import {GridLoader} from "react-spinners";
+import { CircularIcon } from "@worldcoin/mini-apps-ui-kit-react";
+import {Sphere} from "iconoir-react";
 
 export interface TokenListProps {
     tokens: Token[];
@@ -28,7 +30,15 @@ export const TokenList: React.FC<TokenListProps> = ({tokens, loading = false, on
                             className="cursor-pointer border rounded-lg p-3 shadow-sm hover:bg-gray-50 transition flex flex-col gap-1"
                         >
                             <div className="flex items-center justify-between">
-                                <span className="font-semibold text-lg">{token.name}</span>
+                                <div className="flex items-center gap-2 min-w-0">
+                                    <CircularIcon
+                                        className="bg-gray-200"
+                                        size="xs"
+                                    >
+                                        {token.iconUrl ? <img src={token.iconUrl} alt={token.name} width={15} /> : <Sphere />}
+                                    </CircularIcon>
+                                    <span className="font-semibold text-lg truncate">{token.name}</span>
+                                </div>
                                 {token.verified && <img src="/verified.png" alt="verified" style={{height: 20}}/>}
                             </div>
                             {typeof token.balance === "number" && !isNaN(token.balance) && (

@@ -6,6 +6,7 @@ import AddTokenDrawer from '@/components/AdminAddTokenDrawer';
 import {TokenList} from '@/components/TokenList';
 import {Token} from '@/models/Token';
 import {TokenStore} from '@/store/tokenStore';
+import { SearchField } from "@worldcoin/mini-apps-ui-kit-react";
 
 export default function Tokens() {
     const {setTitle, setShowBackButton} = usePageTitle();
@@ -42,9 +43,9 @@ export default function Tokens() {
                 <AddTokenDrawer/>
             </div>
             <div className="max-w-lg w-full">
-                <input
+                <SearchField
                     type="text"
-                    placeholder="Search..."
+                    label="Search..."
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     className="w-full border rounded px-3 py-2 mb-2 focus:outline-none focus:ring"
