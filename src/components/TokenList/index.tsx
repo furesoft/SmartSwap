@@ -31,9 +31,11 @@ export const TokenList: React.FC<TokenListProps> = ({ tokens, loading = false, o
               </div>
               <div className="flex items-center justify-between mt-1">
                 <span className="text-gray-700">Balance:</span>
-                <span className="font-mono">
-                  {(token.balance / 10 ** token.decimals).toLocaleString(undefined, { maximumFractionDigits: 6 })} {token.symbol}
-                </span>
+                {typeof token.balance === "number" && !isNaN(token.balance) ? (
+                  <span className="font-mono">
+                    {(token.balance / 10 ** token.decimals).toLocaleString(undefined, { maximumFractionDigits: 6 })} {token.symbol}
+                  </span>
+                ) : null}
               </div>
             </li>
           ))}
