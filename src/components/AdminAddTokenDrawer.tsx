@@ -6,7 +6,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  LiveFeedback
+  LiveFeedback, BottomBar
 } from "@worldcoin/mini-apps-ui-kit-react";
 import { Button, Input, Switch } from "@worldcoin/mini-apps-ui-kit-react";
 import { TokenStore } from "@/store/tokenStore";
@@ -121,24 +121,27 @@ export default function AdminAddTokenDrawer({ onTokenAdded }: { onTokenAdded?: (
                 </div>
                 <div><b>Symbol:</b> {token.symbol}</div>
                 <div><b>Decimals:</b> {token.decimals}</div>
-                <LiveFeedback
-                    className="w-full"
-                    label={{
-                      failed: 'Failed',
-                      pending: 'Pending',
-                      success: 'Success'
-                    }}
-                    state={feedbackState}
-                >
-                  <Button onClick={addToken} className="mt-3 w-full">
-                    Add token
-                  </Button>
-                </LiveFeedback>
               </div>
             )}
             {success && <div className="text-green-600">{error}</div>}
           </div>
         </div>
+        <BottomBar direction="horizontal">
+          <React.Fragment key=".0">
+            <LiveFeedback
+                className="w-full"
+                state={feedbackState}
+            >
+              <Button fullWidth variant="secondary" onClick={() => handleDrawerOpen(false)} disabled={loading}>
+                Cancel
+              </Button>
+
+              <Button onClick={addToken} className="mt-3 w-full" variant="primary" fullWidth>
+                Add token
+              </Button>
+            </LiveFeedback>
+          </React.Fragment>
+        </BottomBar>
       </DrawerContent>
     </Drawer>
   );
