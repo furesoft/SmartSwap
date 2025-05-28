@@ -1,9 +1,10 @@
 'use client';
-import { Button } from "@worldcoin/mini-apps-ui-kit-react";
-import { useRouter } from "next/navigation";
+import {Button} from "@worldcoin/mini-apps-ui-kit-react";
+import {useRouter} from "next/navigation";
 
 export default function NotFound() {
     const router = useRouter();
+
     function redirectToHome() {
         router.push('/home');
     }

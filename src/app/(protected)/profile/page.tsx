@@ -1,5 +1,5 @@
 ﻿'use client';
-import { Page } from '@/components/PageLayout';
+import {Page} from '@/components/PageLayout';
 import {usePageTitle} from "@/components/PageTitleContext";
 import {useEffect} from "react";
 import {useSession} from "next-auth/react";
@@ -7,7 +7,7 @@ import {useSession} from "next-auth/react";
 export default function Profile() {
     const session = useSession().data;
 
-    const { setTitle } = usePageTitle();
+    const {setTitle} = usePageTitle();
 
     useEffect(() => {
         setTitle("Profile");

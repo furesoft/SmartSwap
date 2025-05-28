@@ -2,7 +2,7 @@
 
 export class TokenStore {
     async load(): Promise<Token[]> {
-        const res = await fetch('/api/tokens', { method: 'GET' });
+        const res = await fetch('/api/tokens', {method: 'GET'});
 
         return await res.json();
     }

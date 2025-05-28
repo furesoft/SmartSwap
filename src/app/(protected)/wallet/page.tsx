@@ -1,22 +1,22 @@
 "use client";
 
-import { Page } from '@/components/PageLayout';
-import { TokenList } from "@/components/TokenList";
-import { usePageTitle } from "@/components/PageTitleContext";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useToken } from "@/components/TokenContext";
-import { Token } from "@/models/Token";
-import { TokenStore } from "@/store/tokenStore";
-import { useSession } from "next-auth/react";
-import { ethers } from "ethers";
-import { worldchain } from 'viem/chains';
+import {Page} from '@/components/PageLayout';
+import {TokenList} from "@/components/TokenList";
+import {usePageTitle} from "@/components/PageTitleContext";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import {useToken} from "@/components/TokenContext";
+import {Token} from "@/models/Token";
+import {TokenStore} from "@/store/tokenStore";
+import {useSession} from "next-auth/react";
+import {ethers} from "ethers";
+import {worldchain} from 'viem/chains';
 
 export default function Wallet() {
-    const { setTitle } = usePageTitle();
+    const {setTitle} = usePageTitle();
     const [tokens, setTokens] = useState<Token[]>([]);
     const [loading, setLoading] = useState(false);
-    const { setToken } = useToken();
+    const {setToken} = useToken();
     const router = useRouter();
     const session = useSession();
     const walletAddress = session?.data?.user?.id;
@@ -68,15 +68,15 @@ export default function Wallet() {
     }
 
     return (
-    <>
-      <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16 bg-white">
-        <TokenList
-          tokens={tokens}
-          loading={loading}
-          onTokenClick={handleTokenClick}
-          filter={token => token.balance > 0}
-        />
-      </Page.Main>
-    </>
-  );
+        <>
+            <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16 bg-white">
+                <TokenList
+                    tokens={tokens}
+                    loading={loading}
+                    onTokenClick={handleTokenClick}
+                    filter={token => token.balance > 0}
+                />
+            </Page.Main>
+        </>
+    );
 }

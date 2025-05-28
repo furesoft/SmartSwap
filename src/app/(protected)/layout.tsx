@@ -1,61 +1,62 @@
 'use client';
-import { Navigation } from '@/components/Navigation';
-import { Page } from '@/components/PageLayout';
-import { TopBar } from "@worldcoin/mini-apps-ui-kit-react";
+import {Navigation} from '@/components/Navigation';
+import {Page} from '@/components/PageLayout';
+import {TopBar} from "@worldcoin/mini-apps-ui-kit-react";
 import ProfileButton from '@/components/ProfileButton';
-import { PageTitleProvider, usePageTitle } from '@/components/PageTitleContext';
-import { useSession } from "next-auth/react";
-import { useRouter } from 'next/navigation';
-import { TokenProvider } from '@/components/TokenContext';
+import {PageTitleProvider, usePageTitle} from '@/components/PageTitleContext';
+import {useSession} from "next-auth/react";
+import {useRouter} from 'next/navigation';
+import {TokenProvider} from '@/components/TokenContext';
 import {ArrowLeft} from "iconoir-react";
 
 export default function TabsLayout({
-  children,
-}: {
-  children: React.ReactNode;
+                                       children,
+                                   }: {
+    children: React.ReactNode;
 }) {
-  return (
-    <TokenProvider>
-      <PageTitleProvider>
-        <InnerTabsLayout>{children}</InnerTabsLayout>
-      </PageTitleProvider>
-    </TokenProvider>
-  );
+    return (
+        <TokenProvider>
+            <PageTitleProvider>
+                <InnerTabsLayout>{children}</InnerTabsLayout>
+            </PageTitleProvider>
+        </TokenProvider>
+    );
 }
 
-function InnerTabsLayout({ children }: { children: React.ReactNode }) {
-  const { title, showBackButton, setShowBackButton } = usePageTitle();
-  const { data } = useSession();
-  const router = useRouter();
+function InnerTabsLayout({children}: { children: React.ReactNode }) {
+    const {title, showBackButton, setShowBackButton} = usePageTitle();
+    const {data} = useSession();
+    const router = useRouter();
 
-  return (
-    <Page>
-      <Page.Header className="p-0">
-        <TopBar
-          title={title}
-          startAdornment={
-            showBackButton ? (
-              <button
-                onClick={() => {
-                  setShowBackButton(false);
-                  router.back();
-                }}
-              >
-                <ArrowLeft />
-              </button>
-            ) : null
-          }
-          endAdornment={
-            <ProfileButton username={data?.user?.username} profilePictureUrl={data?.user?.profilePictureUrl} />
-          }
-        />
-      </Page.Header>
+    return (
+        <Page>
+            <Page.Header className="p-0">
+                <TopBar
+                    title={title}
+                    startAdornment={
+                        showBackButton ? (
+                            <button
+                                onClick={() => {
+                                    setShowBackButton(false);
+                                    router.back();
+                                }}
+                            >
+                                <ArrowLeft/>
+                            </button>
+                        ) : null
+                    }
+                    endAdornment={
+                        <ProfileButton username={data?.user?.username}
+                                       profilePictureUrl={data?.user?.profilePictureUrl}/>
+                    }
+                />
+            </Page.Header>
 
-      {children}
+            {children}
 
-      <Page.Footer className="px-0 fixed bottom-0 w-full bg-white">
-        <Navigation />
-      </Page.Footer>
-    </Page>
-  );
+            <Page.Footer className="px-0 fixed bottom-0 w-full bg-white">
+                <Navigation/>
+            </Page.Footer>
+        </Page>
+    );
 }
