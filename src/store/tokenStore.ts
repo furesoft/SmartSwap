@@ -7,8 +7,10 @@ export class TokenStore {
         return await res.json();
     }
 
-    async add(token: any): Promise<any> {
-        const res = await fetch(`/api/tokens/${token.contract}`, {
+    async add(token: Token): Promise<any> {
+        const url = new URL('/api/tokens', window.location.origin);
+        url.searchParams.set('address', token.contract);
+        const res = await fetch(url.toString(), {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

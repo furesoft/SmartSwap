@@ -23,7 +23,6 @@ export const Navigation = () => {
   const value = pathToTab(pathname);
 
   const handleTabChange = (val: string) => {
-    console.log("Navigating to:", val);
     router.push('/' + val);
   };
 

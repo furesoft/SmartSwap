@@ -55,7 +55,6 @@ export const TokenList = () => {
           };
         }));
 
-        console.log("tokens: ", tokens);
         setTokens(tokens);
         sessionStorage.setItem(sessionKey, JSON.stringify(tokens));
       }

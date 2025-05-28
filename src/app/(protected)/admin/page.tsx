@@ -3,6 +3,8 @@ import React, {useEffect, useState} from "react";
 import { TokenStore } from "@/store/tokenStore";
 import { getTokenInfoForAddress } from "@/utils/tokenHelpers";
 import {usePageTitle} from "@/components/PageTitleContext";
+import { Page } from '@/components/PageLayout';
+import {Button} from "@worldcoin/mini-apps-ui-kit-react";
 
 export default function Admin() {
   const [address, setAddress] = useState("");
@@ -50,6 +52,7 @@ export default function Admin() {
   };
 
   return (
+      <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16 bg-white">
     <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-4">Add Token</h1>
       <div className="mb-4">
@@ -60,13 +63,13 @@ export default function Admin() {
           value={address}
           onChange={e => setAddress(e.target.value)}
         />
-        <button
+        <Button
           className="mt-2 px-4 py-2 bg-blue-600 text-white rounded disabled:opacity-50"
           onClick={fetchTokenInfo}
           disabled={!address || loading}
         >
           Load Token Info
-        </button>
+        </Button>
       </div>
       {loading && <div>Lade...</div>}
       {error && <div className="text-red-600 mb-2">{error}</div>}
@@ -76,16 +79,17 @@ export default function Admin() {
           <div><b>Symbol:</b> {token.symbol}</div>
           <div><b>Decimals:</b> {token.decimals}</div>
           <div><b>Address:</b> {token.contract}</div>
-          <button
+          <Button
             className="mt-3 px-4 py-2 bg-green-600 text-white rounded"
             onClick={addToken}
           >
             Add Token
-          </button>
+          </Button>
         </div>
       )}
       {success && <div className="text-green-600">{success}</div>}
     </div>
+      </Page.Main>
   );
 }
 

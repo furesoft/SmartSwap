@@ -1,6 +1,5 @@
 "use client";
 
-import { auth } from '@/auth';
 import { Page } from '@/components/PageLayout';
 import { useEffect } from 'react';
 import {usePageTitle} from "@/components/PageTitleContext";
