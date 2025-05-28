@@ -67,10 +67,11 @@ export const TokenList = () => {
           t.verified = false;
           return t;
         });
-        await store.init();
+
         const filtered = balances.filter(token => token.balance > 0).sort((a, b) => a.symbol.localeCompare(b.symbol));
         setTokens(filtered);
         sessionStorage.setItem(sessionKey, JSON.stringify(filtered));
+        await store.init();
       }
       catch (e) {
         console.log(e);
