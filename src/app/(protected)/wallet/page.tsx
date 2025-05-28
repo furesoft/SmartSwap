@@ -70,7 +70,12 @@ export default function Wallet() {
     return (
     <>
       <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16 bg-white">
-        <TokenList tokens={tokens} loading={loading} onTokenClick={handleTokenClick} />
+        <TokenList
+          tokens={tokens}
+          loading={loading}
+          onTokenClick={handleTokenClick}
+          filter={token => token.balance > 0}
+        />
       </Page.Main>
     </>
   );

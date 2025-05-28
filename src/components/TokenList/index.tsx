@@ -6,9 +6,11 @@ export interface TokenListProps {
   tokens: Token[];
   loading?: boolean;
   onTokenClick?: (token: Token) => void;
+  filter?: (token: Token) => boolean;
 }
 
-export const TokenList: React.FC<TokenListProps> = ({ tokens, loading = false, onTokenClick }) => {
+export const TokenList: React.FC<TokenListProps> = ({ tokens, loading = false, onTokenClick, filter }) => {
+  const filteredTokens = filter ? tokens.filter(filter) : tokens;
   return (
     <div className="flex flex-col gap-4 rounded-xl w-full p-4">
       <div className="max-h-96 overflow-y-auto">
@@ -17,9 +19,9 @@ export const TokenList: React.FC<TokenListProps> = ({ tokens, loading = false, o
             <Skeleton height={50} />
           </div>
         )}
-        {!loading && tokens.length === 0 && <span>No Tokens found</span>}
+        {!loading && filteredTokens.length === 0 && <span>No Tokens found</span>}
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-          {tokens.map((token) => (
+          {filteredTokens.map((token) => (
             <li
               key={token.name}
               onClick={() => onTokenClick?.(token)}
