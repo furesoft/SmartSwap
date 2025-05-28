@@ -11,6 +11,7 @@ export default function Tokens() {
     const {setTitle, setShowBackButton} = usePageTitle();
     const [tokens, setTokens] = useState<Token[]>([]);
     const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         setTitle("Tokens");
@@ -26,13 +27,31 @@ export default function Tokens() {
         });
     }, [setTitle]);
 
+    const filterFn = (token: Token) => {
+        const q = search.trim().toLowerCase();
+        if (!q) return true;
+        return (
+            token.name.toLowerCase().includes(q) ||
+            token.symbol?.toLowerCase().includes(q)
+        );
+    };
+
     return (
         <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16 bg-white">
             <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow">
                 <AddTokenDrawer/>
             </div>
             <div className="max-w-lg w-full">
-                <TokenList tokens={tokens} loading={loading}/>
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    className="w-full border rounded px-3 py-2 mb-2 focus:outline-none focus:ring"
+                />
+            </div>
+            <div className="max-w-lg w-full">
+                <TokenList tokens={tokens} loading={loading} filter={filterFn}/>
             </div>
         </Page.Main>
     );
