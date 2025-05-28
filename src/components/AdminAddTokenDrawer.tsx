@@ -118,7 +118,7 @@ export default function AdminAddTokenDrawer({onTokenAdded}: { onTokenAdded?: () 
                                 <div className="flex items-center justify-between">
                                     <div><b>Name:</b> {token.name}</div>
                                     <div className="flex items-center gap-2">
-                                        <Switch checked={verified} onCheckedChange={setVerified}/>
+                                        <Switch checked={verified} onChecked={setVerified}/>
                                         <span>Verified</span>
                                     </div>
                                 </div>
