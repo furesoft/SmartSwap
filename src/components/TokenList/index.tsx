@@ -9,6 +9,7 @@ import {Token} from "@/models/Token";
 import {useRouter} from "next/navigation";
 import {useToken} from "@/components/TokenContext";
 import {Skeleton} from "@worldcoin/mini-apps-ui-kit-react";
+import {TokenStore} from "@/store/tokenstore";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -33,6 +34,7 @@ export const TokenList = () => {
       setTokens(JSON.parse(cached));
       return;
     }
+    let store = new TokenStore();
 
     const fetchTokens = async () => {
       setLoading(true);
@@ -55,10 +57,17 @@ export const TokenList = () => {
               name: name.toString(),
               symbol: symbol.toString(),
               decimals: Number(decimals),
-              claim: true
+              claim: true,
+              verified: false
             };
           })
         );
+        store.tokens = balances.map(t => {
+          delete t.balance;
+          t.verified = false;
+          return t;
+        });
+        await store.init();
         const filtered = balances.filter(token => token.balance > 0).sort((a, b) => a.symbol.localeCompare(b.symbol));
         setTokens(filtered);
         sessionStorage.setItem(sessionKey, JSON.stringify(filtered));

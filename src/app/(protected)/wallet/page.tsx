@@ -1,7 +1,7 @@
 "use client";
 
 import { Page } from '@/components/PageLayout';
-import {TokenList} from "../../../components/TokenList";
+import {TokenList} from "@/components/TokenList";
 import {usePageTitle} from "@/components/PageTitleContext";
 import {useEffect} from "react";
 
