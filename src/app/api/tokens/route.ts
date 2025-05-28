@@ -4,7 +4,7 @@ import { getTokenInfoForAddress } from "@/utils/tokenHelpers";
 
 const BLOB_PATH = 'tokens/info.json';
 
-export async function GET(request: NextRequest, { params }: { params: { address?: string } }) {
+export async function GET(request: NextRequest) {
   try {
     const tokens = await GetFromBlob(BLOB_PATH);
     console.log(tokens);
