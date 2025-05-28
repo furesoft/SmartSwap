@@ -11,7 +11,7 @@ export class TokenStore {
         const url = new URL('/api/tokens', window.location.origin);
         url.searchParams.set('address', token.contract);
         const res = await fetch(url.toString(), {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },

@@ -27,7 +27,7 @@ async function GetFromBlob(path: string) {
   }
 }
 
-export async function PUT(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const address = searchParams.get('address');

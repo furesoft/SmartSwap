@@ -11,7 +11,7 @@ export interface TokenListProps {
 export const TokenList: React.FC<TokenListProps> = ({ tokens, loading = false, onTokenClick }) => {
   return (
     <div className="flex flex-col gap-4 rounded-xl w-full p-4">
-      <div>
+      <div className="max-h-96 overflow-y-auto">
         {loading && (
           <div className="cursor-pointer border rounded-lg p-3 shadow-sm hover:bg-gray-50 transition flex flex-col gap-1">
             <Skeleton height={50} />
@@ -29,14 +29,14 @@ export const TokenList: React.FC<TokenListProps> = ({ tokens, loading = false, o
                 <span className="font-semibold text-lg">{token.name}</span>
                 {token.verified && <img src="/verified.png" alt="verified" style={{ height: 20 }} />}
               </div>
-              <div className="flex items-center justify-between mt-1">
+                {typeof token.balance === "number" && !isNaN(token.balance) && (
+                    <div className="flex items-center justify-between mt-1">
                 <span className="text-gray-700">Balance:</span>
-                {typeof token.balance === "number" && !isNaN(token.balance) ? (
+
                   <span className="font-mono">
                     {(token.balance / 10 ** token.decimals).toLocaleString(undefined, { maximumFractionDigits: 6 })} {token.symbol}
                   </span>
-                ) : null}
-              </div>
+              </div> )}
             </li>
           ))}
         </ul>
