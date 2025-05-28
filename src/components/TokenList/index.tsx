@@ -1,6 +1,7 @@
 import React from "react";
 import { Token } from "@/models/Token";
 import { Skeleton } from "@worldcoin/mini-apps-ui-kit-react";
+import {GridLoader} from "react-spinners";
 
 export interface TokenListProps {
   tokens: Token[];
@@ -15,8 +16,8 @@ export const TokenList: React.FC<TokenListProps> = ({ tokens, loading = false, o
     <div className="flex flex-col gap-4 rounded-xl w-full p-4">
       <div className="max-h-96 overflow-y-auto">
         {loading && (
-          <div className="cursor-pointer border rounded-lg p-3 shadow-sm hover:bg-gray-50 transition flex flex-col gap-1">
-            <Skeleton height={50} />
+          <div className="flex justify-center items-center h-40">
+            <GridLoader />
           </div>
         )}
         {!loading && filteredTokens.length === 0 && <span>No Tokens found</span>}
