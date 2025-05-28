@@ -3651,6 +3651,7 @@ snapshots:
 
   SmartSwap@file:(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(tailwindcss@4.1.7)(typescript@5.8.3):
     dependencies:
+      '@vercel/blob': 1.1.1
       '@worldcoin/mini-apps-ui-kit-react': 1.2.4(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.7)
       '@worldcoin/minikit-js': 1.9.4(@types/react@19.1.5)(react@19.1.0)(typescript@5.8.3)(viem@2.23.5(typescript@5.8.3))
       '@worldcoin/minikit-react': 1.9.5(@types/react@19.1.5)(react@19.1.0)(typescript@5.8.3)(viem@2.23.5(typescript@5.8.3))

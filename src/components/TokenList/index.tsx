@@ -1,15 +1,14 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from "react";
-import { BigNumberish, ethers } from "ethers";
-import { worldchain } from 'viem/chains';
-import {TOKENS} from '@/tokens';
+import {useSession} from 'next-auth/react';
+import {useEffect, useState} from "react";
+import {BigNumberish, ethers} from "ethers";
+import {worldchain} from 'viem/chains';
 import {Token} from "@/models/Token";
 import {useRouter} from "next/navigation";
 import {useToken} from "@/components/TokenContext";
 import {Skeleton} from "@worldcoin/mini-apps-ui-kit-react";
-import {TokenStore} from "@/store/tokenstore";
+import {TokenStore} from "@/store/tokenStore";
 
 const ERC20_ABI = [
   "function balanceOf(address) view returns (uint256)",
@@ -39,39 +38,26 @@ export const TokenList = () => {
     const fetchTokens = async () => {
       setLoading(true);
       try {
+        const loadedTokens = await store.load();
         const provider = new ethers.JsonRpcProvider(worldchain.rpcUrls.default.http[0]);
-        const balances = await Promise.all(
-            TOKENS.map(async (token) => {
-            const contract = new ethers.Contract(
-              token,
+        let tokens = await Promise.all(loadedTokens.map(async (token: Token) => {
+          const contract = new ethers.Contract(
+              token.contract,
               ERC20_ABI,
               provider
-            );
-            const balance: BigNumberish = await contract.balanceOf(walletAddress);
-            const name = await contract.name();
-            const symbol = await contract.symbol();
-            const decimals = await contract.decimals();
+          );
+          const balance: BigNumberish = await contract.balanceOf(walletAddress);
 
-            return {
-              balance: parseFloat(balance.toString()),
-              name: name.toString(),
-              symbol: symbol.toString(),
-              decimals: Number(decimals),
-              claim: true,
-              verified: false
-            };
-          })
-        );
-        store.tokens = balances.map(t => {
-          delete t.balance;
-          t.verified = false;
-          return t;
-        });
+          return {
+            ...token,
+            balance: parseFloat(balance.toString()),
+            claim: true,
+          };
+        }));
 
-        const filtered = balances.filter(token => token.balance > 0).sort((a, b) => a.symbol.localeCompare(b.symbol));
-        setTokens(filtered);
-        sessionStorage.setItem(sessionKey, JSON.stringify(filtered));
-        await store.init();
+        console.log("tokens: ", tokens);
+        setTokens(tokens);
+        sessionStorage.setItem(sessionKey, JSON.stringify(tokens));
       }
       catch (e) {
         console.log(e);
@@ -79,7 +65,7 @@ export const TokenList = () => {
       }
       setLoading(false);
     };
-    fetchTokens();
+    fetchTokens().then(r => console.log(r));
   }, [walletAddress]);
 
   function openToken(token: Token) {
@@ -94,13 +80,13 @@ export const TokenList = () => {
       <div>
         {loading &&
         <div className="cursor-pointer border rounded-lg p-3 shadow-sm hover:bg-gray-50 transition flex flex-col gap-1">
-          <Skeleton />
+          <Skeleton height={50} />
         </div>
         }
 
         {!loading && tokens.length === 0 && <span>No Tokens found</span>}
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
-          {tokens.filter(t => t.balance > 0).map((token) => (
+          {tokens.map((token) => (
             <li
               key={token.name}
               onClick={() => openToken(token)}
@@ -108,7 +94,7 @@ export const TokenList = () => {
             >
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-lg">{token.name}</span>
-                {token.claim && <button>Claim</button>}
+                {token.verified && <img src="/verified.png" alt="verified" style={{height: 20}} />}
               </div>
               <div className="flex items-center justify-between mt-1">
                 <span className="text-gray-700">Balance:</span>
@@ -121,3 +107,4 @@ export const TokenList = () => {
     </div>
   );
 };
+
