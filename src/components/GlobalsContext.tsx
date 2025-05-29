@@ -36,4 +36,3 @@ export const GlobalsProvider = ({ children }: { children: ReactNode }) => {
     </GlobalsContext.Provider>
   );
 };
-

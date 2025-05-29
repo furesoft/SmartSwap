@@ -5,7 +5,7 @@ export default function Home() {
     return (
         <Page>
             <Page.Main className="flex flex-col items-center justify-center">
-                <AuthButton/>
+                <AuthButton />
             </Page.Main>
         </Page>
     );
