@@ -79,8 +79,8 @@ export default function AdminEditTokenDrawer({ token, onTokenUpdated, open, onOp
                 </div>
 
                 <BottomBar>
-                    <Button onClick={handleSubmit} fullWidth>Save</Button>
                     <Button onClick={() => onOpenChange(false)} variant="secondary" fullWidth>Cancel</Button>
+                    <Button onClick={handleSubmit} fullWidth>Save</Button>
                 </BottomBar>
             </DrawerContent>
         </Drawer>

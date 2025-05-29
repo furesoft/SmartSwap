@@ -46,7 +46,7 @@ export const TokenList: React.FC<TokenListProps> = ({tokens, loading = false, on
                                         className="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
                                         onClick={e => { e.stopPropagation(); onEditToken(token); }}
                                     >
-                                        Bearbeiten
+                                        Edit
                                     </button>
                                 )}
                             </div>
