@@ -7,7 +7,6 @@ export default function ProfileButton({username, profilePictureUrl}: { username:
     return (
         <div className="flex items-center gap-2" onClick={() => router.push('/profile')}>
             <p className="text-sm font-semibold capitalize">{username}</p>
-            <Marble src={profilePictureUrl} className="w-12"/>
         </div>
     );
 }
