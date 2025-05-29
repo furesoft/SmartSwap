@@ -9,7 +9,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
   Input,
-  LiveFeedback,
   Switch
 } from "@worldcoin/mini-apps-ui-kit-react";
 import {TokenStore} from "@/store/tokenStore";
@@ -24,7 +23,6 @@ export default function AdminAddTokenDrawer({onTokenAdded}: { onTokenAdded?: () 
     const [open, setOpen] = useState(false);
     const [verified, setVerified] = useState(false);
     const [feedbackState, setFeedbackState] = useState<'pending' | 'success' | 'failed' | undefined>();
-    const [loadFeedbackState, setLoadFeedbackState] = useState<'pending' | 'success' | 'failed' | undefined>();
 
     const handleDrawerOpen = (open: boolean) => {
         setOpen(open);
@@ -36,26 +34,6 @@ export default function AdminAddTokenDrawer({onTokenAdded}: { onTokenAdded?: () 
             setLoading(false);
             setVerified(false);
             setFeedbackState(undefined);
-            setLoadFeedbackState(undefined);
-        }
-    };
-
-    const fetchTokenInfo = async () => {
-        setError(null);
-        setSuccess(null);
-        setToken(null);
-        setLoading(true);
-        setLoadFeedbackState('pending');
-        try {
-            const data = await getTokenInfoForAddress(address);
-            setToken(data);
-            setVerified(false);
-            setLoadFeedbackState('success');
-        } catch (e: any) {
-            setError(e.message);
-            setLoadFeedbackState('failed');
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -89,62 +67,52 @@ export default function AdminAddTokenDrawer({onTokenAdded}: { onTokenAdded?: () 
                     Add token
                 </Button>
             </DrawerTrigger>
-            <DrawerContent className="p-6 grow flex flex-col justify-between">
+
+            <DrawerContent className="p-6 m-5">
                 <div>
                     <DrawerHeader>
                         <DrawerTitle>Add token</DrawerTitle>
                     </DrawerHeader>
+
                     <div className="flex flex-col gap-4 pt-4">
-                        <Input label="Token address" value={address} onChange={e => {
+                        <Input label="Token address" value={address} onChange={async e => {
                             setAddress(e.target.value);
-                            setLoadFeedbackState(undefined);
+                            setError(null);
+                            setSuccess(null);
+                            setToken(null);
+                            if (e.target.value) {
+                                try {
+                                    const data = await getTokenInfoForAddress(e.target.value);
+                                    setToken(data);
+                                    setVerified(false);
+                                } catch (e: any) {
+                                    setError(e.message);
+                                } finally {
+                                    setLoading(false);
+                                }
+                            }
                         }}/>
-                        <LiveFeedback
-                            className="w-full"
-                            label={{
-                                failed: 'Failed',
-                                pending: 'Pending',
-                                success: 'Success'
-                            }}
-                            state={loadFeedbackState}
-                        >
-                            <Button onClick={fetchTokenInfo} disabled={!address || loading} variant="primary">
-                                Load token info
-                            </Button>
-                        </LiveFeedback>
                         {error && <div className="text-red-600 mb-2">{error}</div>}
-                        {token && (
+                        {(
                             <div className="mb-4">
                                 <div className="flex items-center justify-between">
-                                    <div><b>Name:</b> {token.name}</div>
+                                    <div><b>Name:</b> {token && token.name}</div>
                                     <div className="flex items-center gap-2">
                                         <Switch checked={verified} onChange={setVerified}/>
                                         <span>Verified</span>
                                     </div>
                                 </div>
-                                <div><b>Symbol:</b> {token.symbol}</div>
-                                <div><b>Decimals:</b> {token.decimals}</div>
+                                <div><b>Symbol:</b> {token && token.symbol}</div>
+                                <div><b>Decimals:</b> {token && token.decimals}</div>
                             </div>
                         )}
                         {success && <div className="text-green-600">{error}</div>}
                     </div>
                 </div>
-                <BottomBar direction="horizontal">
-                    <React.Fragment key=".0">
-                        <LiveFeedback
-                            className="w-full"
-                            state={feedbackState}
-                        >
-                            <Button fullWidth variant="secondary" onClick={() => handleDrawerOpen(false)}
-                                    disabled={loading}>
-                                Cancel
-                            </Button>
 
-                            <Button onClick={addToken} className="mt-3 w-full" variant="primary" fullWidth>
-                                Add token
-                            </Button>
-                        </LiveFeedback>
-                    </React.Fragment>
+                <BottomBar>
+                    <Button onClick={() => handleDrawerOpen(false)} variant="secondary" fullWidth>Cancel</Button>
+                    <Button onClick={addToken} fullWidth>Add</Button>
                 </BottomBar>
             </DrawerContent>
         </Drawer>

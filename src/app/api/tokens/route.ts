@@ -1,6 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server';
 import * as blob from '@vercel/blob';
 import {getTokenInfoForAddress} from "@/utils/tokenHelpers";
+import {Token} from "@/models/Token";
 
 const BLOB_PATH = 'tokens/info.json';
 
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-async function GetFromBlob(path: string) {
+async function GetFromBlob(path: string): Promise<Token[]> {
     try {
         let url = await blob.head(path);
         const res = await fetch(url.url);
@@ -23,7 +24,7 @@ async function GetFromBlob(path: string) {
         return res.json();
     } catch (e) {
         console.log(e);
-        return NextResponse.json([], {status: 500});
+        return [];
     }
 }
 
@@ -36,14 +37,16 @@ export async function POST(request: NextRequest) {
         const token = await getTokenInfoForAddress(address);
         let tokens = await GetFromBlob(BLOB_PATH);
 
-        if (!tokens.find((t: any) => t.contract.toLowerCase() === address.toLowerCase())) {
-            console.log("Adding token:", token);
+        if (!tokens.find((t: Token) => t.contract.toLowerCase() === token.contract.toLowerCase())) {
             tokens.push(token);
+
             await blob.put(BLOB_PATH, JSON.stringify(tokens), {
                 contentType: 'application/json',
                 access: 'public',
                 allowOverwrite: true
             });
+
+            return NextResponse.json(token, {status: 200});
         }
 
         console.log("Token already exists or added:", token);
