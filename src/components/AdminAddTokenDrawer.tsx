@@ -83,7 +83,7 @@ export default function AdminAddTokenDrawer({onTokenAdded}: { onTokenAdded?: () 
     };
 
     return (
-        <Drawer height="full" repositionInputs open={open} onOpenChange={handleDrawerOpen}>
+        <Drawer repositionInputs open={open} onOpenChange={handleDrawerOpen} height="fit">
             <DrawerTrigger asChild>
                 <Button variant="secondary" size="sm" onClick={() => handleDrawerOpen(true)}>
                     Add token

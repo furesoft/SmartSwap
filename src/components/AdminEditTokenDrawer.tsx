@@ -46,8 +46,8 @@ export default function AdminEditTokenDrawer({ token, onTokenUpdated, open, onOp
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form)
             });
-            if (!res.ok) throw new Error('Fehler beim Aktualisieren');
-            setSuccess('Token aktualisiert!');
+            if (!res.ok) throw new Error('Error');
+            setSuccess('Token changed!');
             setFeedbackState('success');
             onTokenUpdated?.();
             onOpenChange(false);
@@ -60,7 +60,7 @@ export default function AdminEditTokenDrawer({ token, onTokenUpdated, open, onOp
     };
 
     return (
-        <Drawer open={open} onOpenChange={onOpenChange}>
+        <Drawer open={open} onOpenChange={onOpenChange} height="fit">
             <DrawerContent>
                 <DrawerHeader>
                     <DrawerTitle>Edit Token</DrawerTitle>
@@ -70,7 +70,10 @@ export default function AdminEditTokenDrawer({ token, onTokenUpdated, open, onOp
                     <Input label="Name" name="name" value={form.name} onChange={handleChange} />
                     <Input label="Symbol" name="symbol" value={form.symbol} onChange={handleChange} />
                     <Input label="Icon URL" name="iconUrl" value={form.iconUrl || ''} onChange={handleChange} />
-                    <Switch checked={!!form.verified} onChange={handleSwitch}>Verifiziert</Switch>
+                    <div className="flex items-center justify-between gap-2">
+                        <label htmlFor="verified-switch" className="text-sm">Verified</label>
+                        <Switch checked={!!form.verified} onChange={handleSwitch} id="verified-switch" />
+                    </div>
                     {error && <LiveFeedback state="failed">{error}</LiveFeedback>}
                     {success && <LiveFeedback state="success">{success}</LiveFeedback>}
                 </div>
