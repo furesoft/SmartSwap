@@ -1,9 +1,10 @@
 "use client";
 
 import {Page} from '@/components/PageLayout';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {usePageTitle} from "@/components/PageTitleContext";
 import {useGlobals} from "@/components/GlobalsContext";
+import DonateButton from "@/components/DonateDrawerButton";
 
 export default function Home() {
     const {setTitle} = usePageTitle();
@@ -21,6 +22,7 @@ export default function Home() {
                         {globals.message}
                     </div>
                 )}
+
                 hello world
             </Page.Main>
         </>

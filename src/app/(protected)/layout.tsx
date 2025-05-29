@@ -8,6 +8,8 @@ import {useSession} from "next-auth/react";
 import {useRouter} from 'next/navigation';
 import {TokenProvider} from '@/components/TokenContext';
 import {ArrowLeft} from "iconoir-react";
+import DonateButton from "@/components/DonateDrawerButton";
+import React from "react";
 
 export default function TabsLayout({
                                        children,
@@ -46,8 +48,10 @@ function InnerTabsLayout({children}: { children: React.ReactNode }) {
                         ) : null
                     }
                     endAdornment={
-                        <ProfileButton username={data?.user?.username}
-                                       profilePictureUrl={data?.user?.profilePictureUrl}/>
+                        <div className="flex flex-row items-center gap-2">
+                            <ProfileButton username={data?.user?.username} profilePictureUrl={data?.user?.profilePictureUrl}/>
+                            <DonateButton />
+                        </div>
                     }
                 />
             </Page.Header>

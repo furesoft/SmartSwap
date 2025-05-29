@@ -22,7 +22,7 @@ importers:
         version: 1.9.5(@types/react@19.1.5)(react@19.1.0)(typescript@5.8.3)(viem@2.23.5(typescript@5.8.3))
       '@worldcoin/next-15-template':
         specifier: 'file:'
-        version: SmartSwap@file:(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(tailwindcss@4.1.7)(typescript@5.8.3)
+        version: SmartSwap@file:(@popperjs/core@2.11.8)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(tailwindcss@4.1.7)(typescript@5.8.3)
       bootstrap:
         specifier: ^5.3.6
         version: 5.3.6(@popperjs/core@2.11.8)
@@ -56,6 +56,9 @@ importers:
       tailwind-merge:
         specifier: ^3.2.0
         version: 3.3.0
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
       viem:
         specifier: 2.23.5
         version: 2.23.5(typescript@5.8.3)
@@ -2653,6 +2656,10 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
   vaul@1.1.2:
     resolution: {integrity: sha512-ZFkClGpWyI2WUQjdLJ/BaGuV6AVQiJ3uELGk3OYtP+B6yCO7Cmn9vPFXVJkRaGkOJu3m8bQMgtyzNHixULceQA==}
     peerDependencies:
@@ -3800,18 +3807,20 @@ snapshots:
       - typescript
       - zod
 
-  SmartSwap@file:(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(tailwindcss@4.1.7)(typescript@5.8.3):
+  SmartSwap@file:(@popperjs/core@2.11.8)(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(tailwindcss@4.1.7)(typescript@5.8.3):
     dependencies:
       '@vercel/blob': 1.1.1
       '@worldcoin/mini-apps-ui-kit-react': 1.2.4(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.7)
       '@worldcoin/minikit-js': 1.9.4(@types/react@19.1.5)(react@19.1.0)(typescript@5.8.3)(viem@2.23.5(typescript@5.8.3))
       '@worldcoin/minikit-react': 1.9.5(@types/react@19.1.5)(react@19.1.0)(typescript@5.8.3)(viem@2.23.5(typescript@5.8.3))
+      bootstrap: 5.3.6(@popperjs/core@2.11.8)
       clsx: 2.1.1
       ethers: 6.14.1
       iconoir-react: 7.11.0(react@19.1.0)
       next: 15.2.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       next-auth: 5.0.0-beta.28(next@15.2.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react: 19.1.0
+      react-bootstrap: 2.10.10(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       react-dom: 19.1.0(react@19.1.0)
       react-spinners: 0.17.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       tailwind-merge: 3.3.0
@@ -3820,6 +3829,7 @@ snapshots:
       - '@babel/core'
       - '@opentelemetry/api'
       - '@playwright/test'
+      - '@popperjs/core'
       - '@simplewebauthn/browser'
       - '@simplewebauthn/server'
       - '@types/react'
@@ -5534,6 +5544,8 @@ snapshots:
   use-sync-external-store@1.5.0(react@19.1.0):
     dependencies:
       react: 19.1.0
+
+  uuid@11.1.0: {}
 
   vaul@1.1.2(@types/react-dom@19.1.5(@types/react@19.1.5))(@types/react@19.1.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0):
     dependencies:
