@@ -53,3 +53,35 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({error: 'Error adding token'}, {status: 500});
     }
 }
+
+export async function PATCH(request: NextRequest) {
+    try {
+        const body = await request.json();
+        if (!body.contract) {
+            return NextResponse.json({error: 'Contract address missing'}, {status: 400});
+        }
+        let tokens = await GetFromBlob(BLOB_PATH);
+        const idx = tokens.findIndex((t: any) => t.contract.toLowerCase() === body.contract.toLowerCase());
+        if (idx === -1) {
+            return NextResponse.json({error: 'Token not found'}, {status: 404});
+        }
+
+        tokens[idx] = {
+            ...tokens[idx],
+            name: body.name,
+            symbol: body.symbol,
+            iconUrl: body.iconUrl,
+            verified: body.verified
+        };
+        await blob.put(BLOB_PATH, JSON.stringify(tokens), {
+            contentType: 'application/json',
+            access: 'public',
+            allowOverwrite: true
+        });
+        return NextResponse.json(tokens[idx]);
+    } catch (e) {
+        console.log(e);
+        return NextResponse.json({error: 'Error updating token'}, {status: 500});
+    }
+}
+

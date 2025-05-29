@@ -9,9 +9,10 @@ export interface TokenListProps {
     loading?: boolean;
     onTokenClick?: (token: Token) => void;
     filter?: (token: Token) => boolean;
+    onEditToken?: (token: Token) => void;
 }
 
-export const TokenList: React.FC<TokenListProps> = ({tokens, loading = false, onTokenClick, filter}) => {
+export const TokenList: React.FC<TokenListProps> = ({tokens, loading = false, onTokenClick, filter, onEditToken}) => {
     const filteredTokens = filter ? tokens.filter(filter) : tokens;
     return (
         <div className="flex flex-col gap-4 rounded-xl w-full p-4">
@@ -40,6 +41,14 @@ export const TokenList: React.FC<TokenListProps> = ({tokens, loading = false, on
                                     <span className="font-semibold text-lg truncate">{token.name}</span>
                                 </div>
                                 {token.verified && <img src="/verified.png" alt="verified" style={{height: 20}}/>}
+                                {onEditToken && (
+                                    <button
+                                        className="ml-2 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200"
+                                        onClick={e => { e.stopPropagation(); onEditToken(token); }}
+                                    >
+                                        Bearbeiten
+                                    </button>
+                                )}
                             </div>
                             {typeof token.balance === "number" && !isNaN(token.balance) && (
                                 <div className="flex items-center justify-between mt-1">

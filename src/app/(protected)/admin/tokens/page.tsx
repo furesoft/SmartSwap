@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {usePageTitle} from "@/components/PageTitleContext";
 import {Page} from '@/components/PageLayout';
 import AddTokenDrawer from '@/components/AdminAddTokenDrawer';
+import AdminEditTokenDrawer from '@/components/AdminEditTokenDrawer';
 import {TokenList} from '@/components/TokenList';
 import {Token} from '@/models/Token';
 import {TokenStore} from '@/store/tokenStore';
@@ -13,11 +14,11 @@ export default function Tokens() {
     const [tokens, setTokens] = useState<Token[]>([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const [editToken, setEditToken] = useState<Token|null>(null);
+    const [editOpen, setEditOpen] = useState(false);
 
-    useEffect(() => {
-        setTitle("Tokens");
+    const reloadTokens = () => {
         setLoading(true);
-        setShowBackButton(true);
         const store = new TokenStore();
         store.load().then((loadedTokens) => {
             setTokens(loadedTokens);
@@ -26,6 +27,13 @@ export default function Tokens() {
             setTokens([]);
             setLoading(false);
         });
+    };
+
+    useEffect(() => {
+        setTitle("Tokens");
+        setLoading(true);
+        setShowBackButton(true);
+        reloadTokens();
     }, [setTitle]);
 
     const filterFn = (token: Token) => {
@@ -37,10 +45,15 @@ export default function Tokens() {
         );
     };
 
+    const handleEditToken = (token: Token) => {
+        setEditToken(token);
+        setEditOpen(true);
+    };
+
     return (
         <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16 bg-white">
             <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow">
-                <AddTokenDrawer/>
+                <AddTokenDrawer onTokenAdded={reloadTokens}/>
             </div>
             <div className="max-w-lg w-full">
                 <SearchField
@@ -52,8 +65,28 @@ export default function Tokens() {
                 />
             </div>
             <div className="max-w-lg w-full">
-                <TokenList tokens={tokens} loading={loading} filter={filterFn}/>
+                <TokenList
+                    tokens={tokens}
+                    loading={loading}
+                    filter={filterFn}
+                    onEditToken={handleEditToken}
+                />
             </div>
+            {editToken && (
+                <AdminEditTokenDrawer
+                    token={editToken}
+                    open={editOpen}
+                    onOpenChange={(open) => {
+                        setEditOpen(open);
+                        if (!open) setEditToken(null);
+                    }}
+                    onTokenUpdated={() => {
+                        setEditOpen(false);
+                        setEditToken(null);
+                        reloadTokens();
+                    }}
+                />
+            )}
         </Page.Main>
     );
 }
