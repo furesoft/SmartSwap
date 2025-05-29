@@ -1,28 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 import * as blob from '@vercel/blob';
 
-const BLOB_PATH = 'global-message.txt';
+const BLOB_PATH = 'globals.json';
 
 export async function GET() {
     try {
         const head = await blob.head(BLOB_PATH);
-        if (!head?.url) return NextResponse.json({ message: null });
-        const text = await fetch(head.url).then(r => r.text());
-        return NextResponse.json({ message: text });
+        if (!head?.url) return NextResponse.json({});
+        const text = await fetch(head.url).then(r => r.json());
+        return NextResponse.json(text);
     } catch (e) {
-        return NextResponse.json({ message: null }, { status: 500 });
+        return NextResponse.json({}, { status: 500 });
     }
 }
 
 export async function POST(request: NextRequest) {
     try {
-        const { message } = await request.json();
-        if (!message) {
-            await blob.del(BLOB_PATH);
-            return NextResponse.json({ success: true });
-        }
+        const obj = await request.text();
 
-        await blob.put(BLOB_PATH, message, {
+        await blob.put(BLOB_PATH, obj, {
             access: 'public',
             allowOverwrite: true
         });

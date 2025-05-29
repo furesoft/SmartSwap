@@ -4,7 +4,7 @@ import {Session} from 'next-auth';
 import {SessionProvider} from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import type {ReactNode} from 'react';
-import { MessageProvider } from '@/components/MessageContext';
+import { GlobalsProvider } from '@/components/GlobalsContext';
 
 const ErudaProvider = dynamic(
     () => import('@/providers/Eruda').then((c) => c.ErudaProvider),
@@ -27,7 +27,7 @@ interface ClientProvidersProps {
  * - MiniKitProvider:
  *     - Required for MiniKit functionality.
  *
- * - MessageProvider:
+ * - GlobalsProvider:
  *     - Provides global state for messaging functionality.
  *
  * This component ensures all providers are available to all child components.
@@ -40,7 +40,7 @@ export default function ClientProviders({
         <ErudaProvider>
             <MiniKitProvider>
                 <SessionProvider session={session}>
-                    <MessageProvider>{children}</MessageProvider>
+                    <GlobalsProvider>{children}</GlobalsProvider>
                 </SessionProvider>
             </MiniKitProvider>
         </ErudaProvider>

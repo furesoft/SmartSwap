@@ -9,15 +9,15 @@ import {
 } from "@worldcoin/mini-apps-ui-kit-react";
 import React, { useEffect } from "react";
 import {useState} from "react";
-import { useMessage } from "@/components/MessageContext";
+import { useGlobals } from "@/components/GlobalsContext";
 
 export default function SetMessageDrawer() {
     const [open, setOpen] = useState(false);
     const [input, setInput] = useState<string>("");
-    const { setMessage, message } = useMessage();
+    const { setValue, globals } = useGlobals();
 
     useEffect(() => {
-        if (open) setInput(message || "");
+        if (open) setInput(globals.message || "");
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
@@ -26,7 +26,7 @@ export default function SetMessageDrawer() {
     };
 
     const sendMessage = () => {
-        setMessage(input);
+        setValue({...globals, message: input});
         setOpen(false);
 
         return undefined;
