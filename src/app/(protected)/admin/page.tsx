@@ -2,10 +2,11 @@
 import React, {useEffect} from "react";
 import {usePageTitle} from "@/components/PageTitleContext";
 import {Page} from '@/components/PageLayout';
-import {Button, Switch} from "@worldcoin/mini-apps-ui-kit-react";
+import {Button, CircularIcon, Switch} from "@worldcoin/mini-apps-ui-kit-react";
 import {useRouter} from "next/navigation";
 import SetMessageDrawer from "@/components/SetMessageDrawer";
 import {useGlobals} from "@/components/GlobalsContext";
+import {Sphere} from "iconoir-react";
 
 export default function Admin() {
     const {setTitle} = usePageTitle();
@@ -33,7 +34,13 @@ export default function Admin() {
                         onChange={checked => setValue({ ...globals, maintenanceMode: checked })}
                     />
                 </div>
-                <Button variant="secondary" onClick={() => navigate("tokens")}>Tokens</Button>
+                <Button variant="secondary" onClick={() => navigate("tokens")}>
+                    <CircularIcon className="bg-gray-200" size="xs">
+                        <Sphere />
+                    </CircularIcon>
+
+                    Tokens
+                </Button>
             </div>
         </Page.Main>
     );
