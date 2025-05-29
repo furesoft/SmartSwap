@@ -2,6 +2,7 @@ import React from "react";
 import { Donate } from "iconoir-react";
 import { CircularIcon, Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger, Button } from "@worldcoin/mini-apps-ui-kit-react";
 import {openOnePay} from "@/Pay";
+import getWorldChatDeeplinkUrl from "@/app/chat";
 
 export default function DonateDrawerButton() {
   const [open, setOpen] = React.useState(false);
@@ -11,6 +12,14 @@ export default function DonateDrawerButton() {
       openOnePay("1000000000");
 
       return undefined;
+  }
+
+  function chat() {
+        const url = getWorldChatDeeplinkUrl({
+            username: 'filmee24',
+            message: '',
+        });
+        window.open(url);
   }
 
   return (
@@ -34,6 +43,7 @@ export default function DonateDrawerButton() {
         <div className="font-mono break-all bg-gray-100 p-2 rounded text-sm mb-4">{address}</div>
 
         <Button onClick={() => donate()}>Donate with OnePay</Button>
+        <Button onClick={() => chat()}>Leave a message</Button>
       </DrawerContent>
     </Drawer>
   );
