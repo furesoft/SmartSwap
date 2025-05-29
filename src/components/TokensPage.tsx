@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import React, {useEffect, useState} from "react";
 import {usePageTitle} from "@/components/PageTitleContext";
 import {Page} from '@/components/PageLayout';
@@ -9,7 +9,7 @@ import {Token} from '@/models/Token';
 import {TokenStore} from '@/store/tokenStore';
 import { SearchField } from "@worldcoin/mini-apps-ui-kit-react";
 
-export default function Tokens() {
+export default function TokensPage() {
     const {setTitle, setShowBackButton} = usePageTitle();
     const [tokens, setTokens] = useState<Token[]>([]);
     const [loading, setLoading] = useState(false);
@@ -52,9 +52,8 @@ export default function Tokens() {
 
     return (
         <Page.Main className="flex flex-col items-center justify-start gap-4 mb-16 bg-white">
-            <div className="max-w-lg mx-auto mt-10 p-6 bg-white rounded shadow">
-                <AddTokenDrawer onTokenAdded={reloadTokens}/>
-            </div>
+            <AddTokenDrawer onTokenAdded={reloadTokens} />
+
             <div className="max-w-lg w-full">
                 <SearchField
                     type="text"
