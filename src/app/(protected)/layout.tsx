@@ -29,6 +29,7 @@ function InnerTabsLayout({children}: { children: React.ReactNode }) {
     const {title, showBackButton, setShowBackButton} = usePageTitle();
     const {data} = useSession();
     const router = useRouter();
+    const isAdmin = window.location.pathname.includes('/admin');
 
     return (
         <Page>
@@ -48,10 +49,12 @@ function InnerTabsLayout({children}: { children: React.ReactNode }) {
                         ) : null
                     }
                     endAdornment={
-                        <div className="flex flex-row items-center gap-2">
-                            <ProfileButton username={data?.user?.username} profilePictureUrl={data?.user?.profilePictureUrl}/>
-                            <DonateButton />
-                        </div>
+                        !isAdmin && (
+                            <div className="flex flex-row items-center gap-2">
+                                <ProfileButton username={data?.user?.username} profilePictureUrl={data?.user?.profilePictureUrl}/>
+                                <DonateButton />
+                            </div>
+                        )
                     }
                 />
             </Page.Header>

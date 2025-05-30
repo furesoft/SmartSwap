@@ -10,4 +10,3 @@ export default function ProfileButton({username, profilePictureUrl}: { username:
         </div>
     );
 }
-

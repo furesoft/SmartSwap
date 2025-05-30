@@ -11,12 +11,13 @@ import {Tab, Tabs} from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Admin() {
-    const {setTitle} = usePageTitle();
+    const {setTitle, setShowBackButton} = usePageTitle();
     const router = useRouter();
     const { globals, setValue } = useGlobals();
 
     useEffect(() => {
         setTitle("Admin");
+        setShowBackButton(false);
     }, [setTitle]);
 
     function navigate(path: string) {
