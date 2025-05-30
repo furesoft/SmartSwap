@@ -42,8 +42,10 @@ export default function DonateDrawerButton() {
         <div className="mb-2 text-gray-700">Address:</div>
         <div className="font-mono break-all bg-gray-100 p-2 rounded text-sm mb-4">{address}</div>
 
-        <Button onClick={() => donate()}>Donate with OnePay</Button>
-        <Button onClick={() => chat()}>Leave a message</Button>
+        <div className="flex flex-col gap-2">
+          <Button onClick={() => donate()}>Donate with OnePay</Button>
+          <Button onClick={() => chat()}>Leave a message</Button>
+        </div>
       </DrawerContent>
     </Drawer>
   );
